@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Thousif Hakkim — Technical Chat Support Specialist</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0d0d0d;
+    --ink2: #3a3a3a;
+    --ink3: #7a7a7a;
+    --bg: #f5f2eb;
+    --surface: #edeae2;
+    --accent: #c84b2f;
+    --accent2: #1a5c3a;
+    --gold: #c9973a;
+    --line: rgba(13,13,13,0.12);
+    --card-bg: #ffffff;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.5;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.1rem 3rem;
+    background: rgba(245,242,235,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--ink2);
+    text-decoration: none;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 7rem 3rem 4rem;
+    gap: 4rem;
+    overflow: hidden;
+  }
+
+  .hero-bg-circle {
+    position: absolute;
+    right: -120px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    z-index: 0;
+  }
+  .hero-bg-circle::before {
+    content: '';
+    position: absolute;
+    inset: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+  }
+  .hero-bg-circle::after {
+    content: '';
+    position: absolute;
+    inset: 90px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+  }
+
+  .hero-left { position: relative; z-index: 1; }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.35rem 0.85rem;
+    border-radius: 2px;
+    margin-bottom: 1.5rem;
+  }
+  .hero-tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #fff;
+    animation: blink 1.5s infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  .hero-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    margin-bottom: 0.3rem;
+  }
+  .hero-name .line2 {
+    color: var(--accent);
+    display: block;
+  }
+
+  .hero-role {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: 1.25rem;
+    color: var(--ink3);
+    margin: 1rem 0 1.5rem;
+    letter-spacing: 0.01em;
+  }
+
+  .hero-desc {
+    font-size: 0.95rem;
+    color: var(--ink2);
+    max-width: 420px;
+    line-height: 1.8;
+    margin-bottom: 2rem;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--ink);
+    color: #f5f2eb;
+    padding: 0.8rem 1.8rem;
+    border-radius: 2px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .btn-primary:hover { background: var(--accent); transform: translateY(-2px); }
+
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1.5px solid var(--ink);
+    color: var(--ink);
+    padding: 0.8rem 1.8rem;
+    border-radius: 2px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+  /* HERO RIGHT – stats card */
+  .hero-right {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .stat-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  .stat-card {
+    background: var(--card-bg);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 1.4rem 1.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s;
+  }
+  .stat-card:hover { transform: translateY(-3px); }
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--accent);
+  }
+  .stat-card.green::before { background: var(--accent2); }
+  .stat-card.gold::before { background: var(--gold); }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 2rem;
+    color: var(--ink);
+    line-height: 1;
+    margin-bottom: 0.2rem;
+  }
+  .stat-label {
+    font-size: 0.78rem;
+    color: var(--ink3);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .contact-strip {
+    background: var(--ink);
+    color: var(--bg);
+    border-radius: 4px;
+    padding: 1.2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.85rem;
+    color: rgba(245,242,235,0.8);
+  }
+  .contact-icon {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.8rem;
+    flex-shrink: 0;
+  }
+
+  /* ── SECTION BASE ── */
+  section {
+    padding: 5rem 3rem;
+    position: relative;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+  .section-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: 1.5px solid var(--accent);
+    padding: 0.2rem 0.6rem;
+    border-radius: 2px;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    line-height: 1.1;
+  }
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+
+  /* ── ABOUT ── */
+  .about-section { background: var(--surface); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 5rem; align-items: center; }
+
+  .about-visual {
+    position: relative;
+  }
+  .avatar-ring {
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    border: 2px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .avatar-ring::before {
+    content: '';
+    position: absolute;
+    inset: -15px;
+    border-radius: 50%;
+    border: 1px dashed var(--line);
+  }
+  .avatar-inner {
+    width: 220px; height: 220px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--ink) 0%, #2d2d2d 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  .avatar-initials {
+    font-family: 'Syne', sans-serif;
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: var(--bg);
+    line-height: 1;
+  }
+  .avatar-subtitle {
+    font-size: 0.65rem;
+    color: rgba(245,242,235,0.5);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .floating-badge {
+    position: absolute;
+    background: var(--accent);
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 3px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+  .badge-1 { top: 10px; right: -30px; }
+  .badge-2 { bottom: 30px; left: -20px; background: var(--accent2); }
+
+  .about-text p {
+    font-size: 1rem;
+    color: var(--ink2);
+    line-height: 1.9;
+    margin-bottom: 1rem;
+  }
+  .about-text p:last-child { margin-bottom: 0; }
+
+  .langs {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .lang-pill {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--card-bg);
+    border: 1px solid var(--line);
+    border-radius: 100px;
+    padding: 0.35rem 1rem;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--ink2);
+  }
+  .lang-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+  /* ── EXPERIENCE ── */
+  .exp-timeline { display: flex; flex-direction: column; gap: 0; }
+  .exp-item {
+    display: grid;
+    grid-template-columns: 200px 1px 1fr;
+    gap: 0 2rem;
+    padding-bottom: 3rem;
+  }
+  .exp-item:last-child { padding-bottom: 0; }
+
+  .exp-date {
+    text-align: right;
+    padding-top: 0.2rem;
+  }
+  .exp-date-range {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .exp-company {
+    font-size: 0.8rem;
+    color: var(--ink3);
+    margin-top: 0.2rem;
+  }
+
+  .exp-connector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+  .exp-dot {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+    flex-shrink: 0;
+    margin-top: 0.25rem;
+    box-shadow: 0 0 0 3px var(--accent);
+  }
+  .exp-line { flex: 1; width: 1px; background: var(--line); }
+
+  .exp-content {
+    padding-bottom: 1rem;
+  }
+  .exp-role {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    margin-bottom: 1rem;
+  }
+  .exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+  .exp-bullets li {
+    font-size: 0.9rem;
+    color: var(--ink2);
+    padding-left: 1rem;
+    position: relative;
+    line-height: 1.7;
+  }
+  .exp-bullets li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 0.85rem;
+  }
+
+  /* ── SKILLS ── */
+  .skills-section { background: var(--ink); }
+  .skills-section .section-title { color: var(--bg); }
+  .skills-section .section-num { border-color: var(--accent); }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+  .skill-group {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 4px;
+    padding: 1.5rem;
+  }
+  .skill-group-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .skill-tag {
+    background: rgba(255,255,255,0.07);
+    color: rgba(245,242,235,0.8);
+    font-size: 0.82rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 2px;
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: all 0.2s;
+  }
+  .skill-tag:hover {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+
+  /* typing speed bar */
+  .typing-bar-wrap { margin-top: 1rem; }
+  .typing-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: rgba(245,242,235,0.6);
+    margin-bottom: 0.5rem;
+  }
+  .typing-val { color: var(--gold); font-weight: 700; }
+  .bar-track {
+    height: 4px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    background: var(--gold);
+    border-radius: 2px;
+    animation: grow 1.5s ease forwards;
+    transform-origin: left;
+    transform: scaleX(0);
+  }
+  @keyframes grow { to { transform: scaleX(1); } }
+
+  /* ── STRENGTHS ── */
+  .strengths-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+  .strength-card {
+    background: var(--card-bg);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 1.75rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .strength-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.08); }
+  .strength-icon {
+    width: 44px; height: 44px;
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+  }
+  .strength-card h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+  }
+  .strength-card p { font-size: 0.87rem; color: var(--ink3); line-height: 1.7; }
+
+  .ic-red { background: rgba(200,75,47,0.1); }
+  .ic-green { background: rgba(26,92,58,0.1); }
+  .ic-gold { background: rgba(201,151,58,0.1); }
+  .ic-blue { background: rgba(37,99,235,0.1); }
+  .ic-purple { background: rgba(109,40,217,0.1); }
+
+  /* ── EDUCATION ── */
+  .edu-section { background: var(--surface); }
+  .edu-card {
+    background: var(--card-bg);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 2.5rem;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 2rem;
+    align-items: start;
+    max-width: 760px;
+    position: relative;
+    overflow: hidden;
+  }
+  .edu-card::after {
+    content: 'B.E.';
+    position: absolute;
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Syne', sans-serif;
+    font-size: 5rem;
+    font-weight: 800;
+    color: var(--line);
+    pointer-events: none;
+  }
+  .edu-icon-wrap {
+    width: 56px; height: 56px;
+    background: var(--ink);
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem;
+    color: var(--bg);
+    flex-shrink: 0;
+  }
+  .edu-inst {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 0.3rem;
+    letter-spacing: -0.01em;
+  }
+  .edu-degree {
+    font-size: 0.9rem;
+    color: var(--ink2);
+    margin-bottom: 0.8rem;
+  }
+  .edu-meta {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .edu-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    padding: 0.3rem 0.75rem;
+    border-radius: 100px;
+    font-size: 0.78rem;
+    color: var(--ink2);
+    font-weight: 500;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink);
+    color: var(--bg);
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    text-align: center;
+  }
+  .footer-logo {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+  }
+  .footer-logo span { color: var(--accent); }
+  .footer-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+  .footer-links a {
+    font-size: 0.8rem;
+    color: rgba(245,242,235,0.5);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--accent); }
+  .footer-copy {
+    font-size: 0.78rem;
+    color: rgba(245,242,235,0.3);
+  }
+
+  /* ── SCROLL ANIMATIONS ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; min-height: auto; padding: 6rem 1.5rem 3rem; gap: 2rem; }
+    .hero-bg-circle { display: none; }
+    section { padding: 3.5rem 1.5rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .avatar-ring { width: 180px; height: 180px; margin: 0 auto; }
+    .avatar-inner { width: 140px; height: 140px; }
+    .avatar-initials { font-size: 2.5rem; }
+    .floating-badge { display: none; }
+    .exp-item { grid-template-columns: 1px 1fr; }
+    .exp-date { display: none; }
+    .edu-card { grid-template-columns: 1fr; }
+    .edu-card::after { display: none; }
+    footer { padding: 2rem 1.5rem; }
+    .footer-links { flex-wrap: wrap; justify-content: center; gap: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">TH<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="mailto:thousifhakkim@gmail.com">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg-circle"></div>
+
+  <div class="hero-left">
+    <div class="hero-tag">Available for Opportunities</div>
+    <h1 class="hero-name">
+      Thousif<br>
+      <span class="line2">Hakkim A</span>
+    </h1>
+    <p class="hero-role">Technical Chat Support Specialist</p>
+    <p class="hero-desc">
+      Detail-oriented and customer-focused professional skilled in troubleshooting technical issues, handling queries via chat, and delivering clear, empathetic solutions that ensure customer satisfaction.
+    </p>
+    <div class="hero-cta">
+      <a href="mailto:thousifhakkim@gmail.com" class="btn-primary">Get In Touch ↗</a>
+      <a href="#experience" class="btn-outline">View Experience</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="stat-row">
+      <div class="stat-card reveal">
+        <div class="stat-num">30+</div>
+        <div class="stat-label">Content Pieces / Week</div>
+      </div>
+      <div class="stat-card green reveal reveal-delay-1">
+        <div class="stat-num">20%</div>
+        <div class="stat-label">Accuracy Improvement</div>
+      </div>
+    </div>
+    <div class="stat-row">
+      <div class="stat-card gold reveal reveal-delay-2">
+        <div class="stat-num">40–50</div>
+        <div class="stat-label">WPM Typing Speed</div>
+      </div>
+      <div class="stat-card reveal reveal-delay-3">
+        <div class="stat-num">3</div>
+        <div class="stat-label">Languages Spoken</div>
+      </div>
+    </div>
+    <div class="contact-strip reveal reveal-delay-4">
+      <div class="contact-item">
+        <div class="contact-icon">✉</div>
+        thousifhakkim@gmail.com
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">📞</div>
+        +91 8438886818
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">📍</div>
+        Coimbatore, Tamil Nadu
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-section" id="about">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <h2 class="section-title">About Me</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="about-grid">
+    <div class="about-visual reveal">
+      <div class="avatar-ring">
+        <div class="avatar-inner">
+          <div class="avatar-initials">TH</div>
+          <div class="avatar-subtitle">Portfolio</div>
+        </div>
+      </div>
+      <div class="floating-badge badge-1">B.E. Final Year</div>
+      <div class="floating-badge badge-2">📍 Coimbatore</div>
+    </div>
+
+    <div class="about-text reveal reveal-delay-1">
+      <p>
+        I'm a passionate <strong>Technical Chat Support Specialist</strong> and final-year B.E. student with a genuine interest in solving problems and helping people. My academic background in Electrical &amp; Electronics Engineering has built strong analytical foundations.
+      </p>
+      <p>
+        With hands-on experience as an AI Content Developer and customer-facing roles, I've developed the ability to communicate complex information simply — a core skill in support environments. I thrive in fast-paced, multi-tasking settings and bring patience and empathy to every interaction.
+      </p>
+      <p>
+        My goal is to join a dynamic support team where I can grow technically while delivering exceptional experiences to users every day.
+      </p>
+
+      <div class="langs">
+        <div class="lang-pill"><span class="lang-dot" style="background:#c84b2f"></span>Tamil — Native</div>
+        <div class="lang-pill"><span class="lang-dot" style="background:#1a5c3a"></span>English — Fluent</div>
+        <div class="lang-pill"><span class="lang-dot" style="background:#c9973a"></span>Malayalam — Conversational</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <h2 class="section-title">Work Experience</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="exp-timeline">
+    <!-- Job 1 -->
+    <div class="exp-item reveal">
+      <div class="exp-date">
+        <div class="exp-date-range">Jan – Apr 2026</div>
+        <div class="exp-company">Sun Info Media<br>Coimbatore</div>
+      </div>
+      <div class="exp-connector">
+        <div class="exp-dot"></div>
+        <div class="exp-line"></div>
+      </div>
+      <div class="exp-content">
+        <div class="exp-role">Educational AI Content Developer</div>
+        <ul class="exp-bullets">
+          <li>Created and reviewed 30+ AI-generated educational content pieces weekly, maintaining quality and accuracy standards.</li>
+          <li>Improved content accuracy by 20% through systematic quality checks and iterative corrections.</li>
+          <li>Collaborated with team members to ensure clarity, consistency, and user-friendly explanations across all materials.</li>
+          <li>Assisted in resolving user queries related to content issues, demonstrating strong problem-solving and communication skills.</li>
+          <li>Maintained consistent formatting standards across 100+ content pieces throughout the project lifecycle.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Job 2 -->
+    <div class="exp-item reveal reveal-delay-1">
+      <div class="exp-date">
+        <div class="exp-date-range">Apr 2026</div>
+        <div class="exp-company">Family-Owned<br>Footwear Store<br>Coimbatore</div>
+      </div>
+      <div class="exp-connector">
+        <div class="exp-dot" style="background: var(--accent2); box-shadow: 0 0 0 3px var(--accent2);"></div>
+        <div class="exp-line"></div>
+      </div>
+      <div class="exp-content">
+        <div class="exp-role">Customer Service Assistant <span style="font-size:0.8rem;color:var(--ink3);font-weight:400;">(Part-Time)</span></div>
+        <ul class="exp-bullets">
+          <li>Assisted 30+ customers daily in selecting products, resolving queries, and ensuring a positive shopping experience.</li>
+          <li>Handled billing, payment processing, and basic inventory management with accuracy.</li>
+          <li>Resolved customer complaints effectively, contributing to improved overall customer satisfaction.</li>
+          <li>Managed multiple customer interactions during peak hours, ensuring prompt and efficient service delivery.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="skills-section" id="skills">
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <h2 class="section-title">Skills & Tools</h2>
+    <div class="section-line" style="background: rgba(255,255,255,0.1)"></div>
+  </div>
+
+  <div class="skills-grid">
+    <div class="skill-group reveal">
+      <div class="skill-group-label">Customer Support</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Chat Support</span>
+        <span class="skill-tag">Email Support</span>
+        <span class="skill-tag">Query Resolution</span>
+        <span class="skill-tag">Customer Satisfaction</span>
+      </div>
+    </div>
+
+    <div class="skill-group reveal reveal-delay-1">
+      <div class="skill-group-label">Technical Skills</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Basic Networking</span>
+        <span class="skill-tag">Technical Troubleshooting</span>
+        <span class="skill-tag">MS Office Suite</span>
+      </div>
+    </div>
+
+    <div class="skill-group reveal reveal-delay-2">
+      <div class="skill-group-label">Tools & Platforms</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Live Chat Platforms</span>
+        <span class="skill-tag">Email Clients</span>
+        <span class="skill-tag">Google Workspace</span>
+        <span class="skill-tag">MS Office</span>
+      </div>
+    </div>
+
+    <div class="skill-group reveal reveal-delay-3">
+      <div class="skill-group-label">Soft Skills</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Communication</span>
+        <span class="skill-tag">Problem Solving</span>
+        <span class="skill-tag">Time Management</span>
+        <span class="skill-tag">Multitasking</span>
+        <span class="skill-tag">Adaptability</span>
+      </div>
+
+      <div class="typing-bar-wrap">
+        <div class="typing-label">
+          <span>Typing Speed</span>
+          <span class="typing-val">40–50 WPM</span>
+        </div>
+        <div class="bar-track">
+          <div class="bar-fill" style="width: 70%"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STRENGTHS -->
+<section id="strengths">
+  <div class="section-header">
+    <span class="section-num">04</span>
+    <h2 class="section-title">Key Strengths</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="strengths-grid">
+    <div class="strength-card reveal">
+      <div class="strength-icon ic-red">💬</div>
+      <h4>Clear Technical Communication</h4>
+      <p>Ability to diagnose and explain technical issues in simple, user-friendly language via chat — making complex problems feel manageable.</p>
+    </div>
+    <div class="strength-card reveal reveal-delay-1">
+      <div class="strength-icon ic-green">🤝</div>
+      <h4>Patient & Empathetic</h4>
+      <p>Calm, patient approach to handling frustrated or confused customers — turning difficult interactions into positive experiences.</p>
+    </div>
+    <div class="strength-card reveal reveal-delay-2">
+      <div class="strength-icon ic-gold">⚡</div>
+      <h4>Multi-Chat Management</h4>
+      <p>Skilled at managing multiple chat conversations simultaneously without compromising quality or response accuracy.</p>
+    </div>
+    <div class="strength-card reveal reveal-delay-3">
+      <div class="strength-icon ic-blue">🎯</div>
+      <h4>Attention to Detail</h4>
+      <p>Strong focus on accuracy ensures complete, professional, and error-free responses in every customer interaction.</p>
+    </div>
+    <div class="strength-card reveal reveal-delay-4">
+      <div class="strength-icon ic-purple">🚀</div>
+      <h4>Fast Learner</h4>
+      <p>Quickly adapts to new support tools, internal knowledge bases, and product updates — ready to contribute from day one.</p>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section class="edu-section" id="education">
+  <div class="section-header">
+    <span class="section-num">05</span>
+    <h2 class="section-title">Education</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="edu-card reveal">
+    <div class="edu-icon-wrap">🎓</div>
+    <div>
+      <div class="edu-inst">Nehru Institute of Engineering and Technology</div>
+      <div class="edu-degree">Bachelor of Engineering — Electrical &amp; Electronics Engineering</div>
+      <div class="edu-meta">
+        <span class="edu-badge">📅 2022 – 2026 (Expected)</span>
+        <span class="edu-badge">📍 Coimbatore</span>
+        <span class="edu-badge">🎓 Final Year</span>
+      </div>
+      <p style="font-size:0.85rem;color:var(--ink3);margin-top:1rem;line-height:1.7;">
+        Relevant coursework: Basic Networking · Computer Architecture · Communication Systems · Technical Communication
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">TH<span>.</span></div>
+  <ul class="footer-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="mailto:thousifhakkim@gmail.com">Contact</a></li>
+  </ul>
+  <p class="footer-copy">© 2026 Thousif Hakkim A · Coimbatore, Tamil Nadu · thousifhakkim@gmail.com</p>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
